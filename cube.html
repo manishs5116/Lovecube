@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LoveCube ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: white;
+
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255, 80, 170, 0.16), transparent 32%),
+        radial-gradient(circle at 80% 80%, rgba(130, 70, 255, 0.15), transparent 32%),
+        linear-gradient(135deg, #08000e, #180020, #07000c);
+}
+
+/* ================= INTRO ================= */
+
+.intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at center, rgba(255, 40, 140, 0.16), transparent 42%),
+        linear-gradient(135deg, #07000d, #18001f, #050008);
+
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.intro-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-content {
+    width: min(90%, 520px);
+    text-align: center;
+}
+
+.intro-heart {
+    font-size: 78px;
+    margin-bottom: 20px;
+
+    animation:
+        heartbeat 1.4s infinite ease-in-out,
+        glowPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(255, 70, 160, 0.35));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 30px rgba(255, 70, 160, 0.9));
+    }
+}
+
+.intro-title {
+    font-size: clamp(32px, 8vw, 55px);
+    font-weight: 700;
+
+    background: linear-gradient(90deg, #ffffff, #ff9dca, #ffffff);
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.intro-text {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #e5d5e8;
+}
+
+.intro-button {
+    margin-top: 30px;
+    border: none;
+    outline: none;
+
+    padding: 15px 30px;
+    border-radius: 50px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: white;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #ff4f9a, #9c3cff);
+
+    box-shadow:
+        0 0 20px rgba(255, 70, 160, 0.35),
+        0 10px 30px rgba(0, 0, 0, 0.35);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.intro-button:hover {
+    transform: translateY(-3px) scale(1.04);
+
+    box-shadow:
+        0 0 40px rgba(255, 70, 160, 0.6),
+        0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.intro-button:active {
+    transform: scale(0.96);
+}
+
+.intro-small {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #aa9aaa;
+}
+
+/* ================= MAIN ================= */
+
+#mainApp {
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+#mainApp.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 90%;
+    text-align: center;
+
+    z-index: 30;
+    pointer-events: none;
+}
+
+.header h1 {
+    font-size: clamp(28px, 7vw, 45px);
+
+    background: linear-gradient(90deg, #ffffff, #ffafd4, #ffffff);
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: shine 5s linear infinite;
+}
+
+.header p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #cdbbd1;
+}
+
+/* ================= SCENE ================= */
+
+.scene {
+    position: absolute;
+
+    top: 52%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 300px;
+    height: 300px;
+
+    perspective: 1100px;
+
+    touch-action: none;
+}
+
+.scene::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 340px;
+    height: 340px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 60, 160, 0.18),
+            transparent 68%
+        );
+
+    filter: blur(14px);
+
+    animation: cubeGlow 3s infinite ease-in-out;
+
+    pointer-events: none;
+}
+
+@keyframes cubeGlow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.92);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.12);
+        opacity: 1;
+    }
+}
+
+/* ================= CUBE ================= */
+
+.cube {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    transform-style: preserve-3d;
+
+    cursor: grab;
+
+    user-select: none;
+
+    will-change: transform;
+}
+
+.cube:active {
+    cursor: grabbing;
+}
+
+/* ================= FACES ================= */
+
+.face {
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    border: 2px solid rgba(255, 255, 255, 0.35);
+
+    background: #16091e;
+
+    box-shadow:
+        0 0 25px rgba(255, 70, 170, 0.25),
+        inset 0 0 25px rgba(255, 255, 255, 0.05);
+
+    backface-visibility: hidden;
+
+    cursor: grab;
+
+    touch-action: none;
+}
+
+.face:active {
+    cursor: grabbing;
+}
+
+.face img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+.face::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.25) 48%,
+            transparent 66%
+        );
+
+    transform: translateX(-120%);
+
+    transition: transform 0.9s ease;
+
+    pointer-events: none;
+}
+
+.face:hover::after {
+    transform: translateX(120%);
+}
+
+/* ================= CENTRE CLICK AREA ================= */
+
+.center-zone {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 42%;
+    height: 42%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgba(255, 120, 190, 0.04);
+
+    border: 1px solid rgba(255, 200, 225, 0.08);
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    touch-action: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.center-zone::after {
+    content: "❤️";
+
+    font-size: 20px;
+
+    opacity: 0.18;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.center-zone:hover {
+    background: rgba(255, 120, 190, 0.12);
+
+    border-color:
+        rgba(255, 200, 225, 0.35);
+
+    box-shadow:
+        0 0 25px rgba(255, 100, 180, 0.22);
+}
+
+.center-zone:hover::after {
+    opacity: 0.8;
+    transform: scale(1.15);
+}
+
+/* ================= SIDES ================= */
+
+.front {
+    transform: translateZ(150px);
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(150px);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(150px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(150px);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(150px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(150px);
+}
+
+/* ================= HINT ================= */
+
+.hint {
+    position: absolute;
+
+    bottom: 94px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 90%;
+
+    text-align: center;
+
+    z-index: 30;
+
+    color: #bda9c4;
+
+    font-size: 13px;
+
+    animation: hintPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes hintPulse {
+    0%, 100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ================= PROGRESS ================= */
+
+.memory-progress {
+    position: absolute;
+
+    bottom: 60px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 8px;
+
+    z-index: 30;
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+    background: #ff70b5;
+
+    transform: scale(1.4);
+
+    box-shadow:
+        0 0 14px rgba(255, 70, 160, 0.8);
+}
+
+/* ================= NEXT ================= */
+
+.next-step {
+    position: fixed;
+
+    left: 50%;
+    bottom: 16px;
+
+    transform: translate(-50%, 30px);
+
+    z-index: 100;
+
+    text-align: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease,
+        visibility 0.7s ease;
+}
+
+.next-step.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translate(-50%, 0);
+}
+
+.next-text {
+    margin-bottom: 7px;
+
+    font-size: 12px;
+
+    color: #cbb6cf;
+}
+
+.next-button {
+    border: none;
+
+    padding: 10px 22px;
+
+    border-radius: 30px;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4c99,
+            #963dff
+        );
+
+    box-shadow:
+        0 0 20px rgba(255, 70, 160, 0.4);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.next-button:hover {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 0 35px rgba(255, 70, 160, 0.6);
+}
+
+/* ================= MESSAGE ================= */
+
+.message-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background: rgba(4, 0, 10, 0.72);
+
+    backdrop-filter: blur(10px);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
+}
+
+.message-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.message-box {
+    width: min(90%, 470px);
+
+    padding: 35px 28px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(38, 13, 50, 0.98),
+            rgba(17, 6, 27, 0.98)
+        );
+
+    border:
+        1px solid rgba(255, 150, 210, 0.25);
+
+    box-shadow:
+        0 0 60px rgba(255, 60, 170, 0.25);
+
+    transform: scale(0.85);
+
+    transition:
+        transform 0.4s ease;
+}
+
+.message-overlay.show .message-box {
+    transform: scale(1);
+}
+
+.message-icon {
+    font-size: 40px;
+
+    margin-bottom: 18px;
+
+    animation:
+        heartbeat 1.5s infinite;
+}
+
+#messageText {
+    font-size: 18px;
+
+    line-height: 1.8;
+
+    color: #f7e9f4;
+}
+
+.close-message {
+    margin-top: 25px;
+
+    padding: 9px 20px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color: #e8d8e8;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.close-message:hover {
+    background:
+        rgba(255, 255, 255, 0.13);
+
+    transform: scale(1.04);
+}
+
+/* ================= FINAL ================= */
+
+.final-screen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1500;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 60, 150, 0.18),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #07000d,
+            #18001f,
+            #07000d
+        );
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.9s ease,
+        visibility 0.9s ease;
+}
+
+.final-screen.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.final-content {
+    width: min(90%, 600px);
+
+    text-align: center;
+
+    transform:
+        translateY(30px)
+        scale(0.96);
+
+    transition:
+        transform 1s ease;
+}
+
+.final-screen.show .final-content {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.final-heart {
+    font-size: 75px;
+
+    margin-bottom: 18px;
+
+    animation:
+        heartbeat 1.5s infinite;
+}
+
+.final-title {
+    font-size:
+        clamp(32px, 8vw, 55px);
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ff9fca,
+            #fff
+        );
+
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation:
+        shine 4s linear infinite;
+}
+
+.final-message {
+    margin-top: 22px;
+
+    font-size:
+        clamp(16px, 3vw, 20px);
+
+    line-height: 1.8;
+
+    color: #e9dce9;
+}
+
+.final-small {
+    margin-top: 18px;
+
+    font-size: 14px;
+
+    color: #bdaabd;
+}
+
+.final-button {
+    margin-top: 30px;
+
+    padding: 13px 28px;
+
+    border: none;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4f9a,
+            #9d43ff
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 25px rgba(255, 70, 160, 0.35);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.final-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.04);
+
+    box-shadow:
+        0 0 40px rgba(255, 70, 160, 0.6);
+}
+
+/* ================= PARTICLES ================= */
+
+.particle {
+    position: fixed;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    user-select: none;
+
+    animation:
+        particleFloat linear forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform:
+            translateY(0)
+            rotate(0deg)
+            scale(0.8);
+
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateY(-110vh)
+            rotate(360deg)
+            scale(1.2);
+
+        opacity: 0;
+    }
+}
+
+/* ================= HEART BURST ================= */
+
+.burst-heart {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 1800;
+
+    pointer-events: none;
+
+    font-size: 22px;
+
+    animation:
+        burst 1.8s ease-out forwards;
+}
+
+@keyframes burst {
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.4);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(1.2)
+            rotate(var(--rotate));
+
+        opacity: 0;
+    }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    .scene {
+        width: 240px;
+        height: 240px;
+    }
+
+    .face {
+        width: 240px;
+        height: 240px;
+    }
+
+    .header {
+        top: 20px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    .hint {
+        bottom: 90px;
+        font-size: 12px;
+    }
+
+    .memory-progress {
+        bottom: 57px;
+    }
+
+    .final-heart {
+        font-size: 60px;
+    }
+
+    .message-box {
+        padding: 30px 22px;
+    }
+
+    #messageText {
+        font-size: 16px;
+    }
+}
+
+@media (max-height: 650px) {
+
+    .scene {
+        transform:
+            translate(-50%, -48%)
+            scale(0.82);
+    }
+
+    .hint {
+        bottom: 70px;
+    }
+
+    .memory-progress {
+        bottom: 45px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     INTRO
+========================================================= -->
+
+<div class="intro-screen" id="introScreen">
+
+    <div class="intro-content">
+
+        <div class="intro-heart">
+            ❤️
+        </div>
+
+        <div class="intro-title">
+            I Made This For You
+        </div>
+
+        <div class="intro-text">
+            Some memories are too beautiful to simply stay in a folder...
+            so I turned them into a little surprise. ✨
+        </div>
+
+        <button class="intro-button" id="openButton">
+            Open My Heart ❤️
+        </button>
+
+        <div class="intro-small">
+            A little surprise, just for you ✨
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div id="mainApp">
+
+    <div class="header">
+
+        <h1>
+            LoveCube ❤️
+        </h1>
+
+        <p>
+            A little collection of moments, just for you ✨
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         CUBE
+    ====================================================== -->
+
+    <div class="scene" id="scene">
+
+        <div class="cube" id="cube">
+
+
+            <!-- FRONT -->
+
+            <div
+                class="face front"
+                data-memory="1"
+            >
+
+                <img
+                    src="front.jpeg"
+                    alt="Memory 1"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="a small moment is enough to make an entire day better. I hope this picture brings you one of those moments. 😊. ❤️"
+                ></div>
+
+            </div>
+
+
+            <!-- BACK -->
+
+            <div
+                class="face back"
+                data-memory="2"
+            >
+
+                <img
+                    src="back.jpeg"
+                    alt="Memory 2"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="You deserve little reasons to smile, even on ordinary days. 🌸"
+                ></div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div
+                class="face right"
+                data-memory="3"
+            >
+
+                <img
+                    src="right.jpeg"
+                    alt="Memory 3"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="Not everything needs a special occasion. Sometimes, making someone happy is reason enough. ✨"
+                ></div>
+
+            </div>
+
+
+            <!-- LEFT -->
+
+            <div
+                class="face left"
+                data-memory="4"
+            >
+
+                <img
+                    src="left.jpeg"
+                    alt="Memory 4"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="A smile can sometimes say more than a thousand words. 💕"
+                ></div>
+
+            </div>
+
+
+            <!-- TOP -->
+
+            <div
+                class="face top"
+                data-memory="5"
+            >
+
+                <img
+                    src="top.jpeg"
+                    alt="Memory 5"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="Keep smiling. I hope I made you smile. 🌙"
+                ></div>
+
+            </div>
+
+
+            <!-- BOTTOM -->
+
+            <div
+                class="face bottom"
+                data-memory="6"
+            >
+
+                <img
+                    src="bottom.jpeg"
+                    alt="Memory 6"
+                    draggable="false"
+                >
+
+                <div
+                    class="center-zone"
+                    data-message="The world looks a little better when you're HAPPY ❤️"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hint">
+        Drag anywhere on the cube • Tap the centre of a photo ❤️
+    </div>
+
+
+    <div class="memory-progress">
+
+        <div class="progress-dot" data-dot="1"></div>
+        <div class="progress-dot" data-dot="2"></div>
+        <div class="progress-dot" data-dot="3"></div>
+        <div class="progress-dot" data-dot="4"></div>
+        <div class="progress-dot" data-dot="5"></div>
+        <div class="progress-dot" data-dot="6"></div>
+
+    </div>
+
+
+    <div class="next-step" id="nextStep">
+
+        <div class="next-text">
+            You've seen all six memories... ✨
+        </div>
+
+        <button
+            class="next-button"
+            id="surpriseButton"
+        >
+            One More Thing →
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MESSAGE
+========================================================= -->
+
+<div
+    class="message-overlay"
+    id="messageOverlay"
+>
+
+    <div class="message-box">
+
+        <div class="message-icon">
+            💌
+        </div>
+
+        <div id="messageText"></div>
+
+        <button
+            class="close-message"
+            id="closeMessage"
+        >
+            Close ❤️
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FINAL
+========================================================= -->
+
+<div
+    class="final-screen"
+    id="finalScreen"
+>
+
+    <div class="final-content">
+
+        <div class="final-heart">
+            💖
+        </div>
+
+        <div class="final-title">
+            One Last Thing ✨
+        </div>
+
+        <div class="final-message">
+
+            You don't always need a special occasion
+            to make someone smile.
+
+            <br><br>
+
+            Sometimes, a tiny surprise,
+            a few memories,
+            and a little thought are enough.
+
+        </div>
+
+        <div class="final-small">
+            I just wanted to leave a little happiness here for you. 😊
+        </div>
+
+        <button
+            class="final-button"
+            id="smileButton"
+        >
+            Keep Smiling ❤️
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MUSIC
+========================================================= -->
+
+<audio id="loveMusic" loop preload="auto">
+
+    <source
+        src="Love story.mp3"
+        type="audio/mpeg"
+    >
+
+</audio>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const introScreen =
+    document.getElementById("introScreen");
+
+const openButton =
+    document.getElementById("openButton");
+
+const mainApp =
+    document.getElementById("mainApp");
+
+const loveMusic =
+    document.getElementById("loveMusic");
+
+const cube =
+    document.getElementById("cube");
+
+const scene =
+    document.getElementById("scene");
+
+const messageOverlay =
+    document.getElementById("messageOverlay");
+
+const messageText =
+    document.getElementById("messageText");
+
+const closeMessage =
+    document.getElementById("closeMessage");
+
+const nextStep =
+    document.getElementById("nextStep");
+
+const surpriseButton =
+    document.getElementById("surpriseButton");
+
+const finalScreen =
+    document.getElementById("finalScreen");
+
+const smileButton =
+    document.getElementById("smileButton");
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+openButton.addEventListener("click", function () {
+
+    introScreen.classList.add("hide");
+
+    mainApp.classList.add("show");
+
+    loveMusic.volume = 0.45;
+
+    loveMusic.play().catch(function () {
+        console.log("Music playback was blocked.");
+    });
+
+});
+
+
+/* =========================================================
+   CUBE SIZE
+========================================================= */
+
+function setCubeSize() {
+
+    const size =
+        window.innerWidth <= 600
+            ? 240
+            : 300;
+
+    const half = size / 2;
+
+    scene.style.width = size + "px";
+    scene.style.height = size + "px";
+
+    document.querySelectorAll(".face").forEach(function (face) {
+
+        face.style.width = size + "px";
+        face.style.height = size + "px";
+
+    });
+
+    document.querySelector(".front").style.transform =
+        `translateZ(${half}px)`;
+
+    document.querySelector(".back").style.transform =
+        `rotateY(180deg) translateZ(${half}px)`;
+
+    document.querySelector(".right").style.transform =
+        `rotateY(90deg) translateZ(${half}px)`;
+
+    document.querySelector(".left").style.transform =
+        `rotateY(-90deg) translateZ(${half}px)`;
+
+    document.querySelector(".top").style.transform =
+        `rotateX(90deg) translateZ(${half}px)`;
+
+    document.querySelector(".bottom").style.transform =
+        `rotateX(-90deg) translateZ(${half}px)`;
+
+}
+
+setCubeSize();
+
+window.addEventListener("resize", setCubeSize);
+
+
+/* =========================================================
+   ROTATION
+========================================================= */
+
+let rotateX = -20;
+let rotateY = 20;
+
+let velocityX = 0;
+let velocityY = 0;
+
+const autoSpeed = 0.22;
+
+let isDragging = false;
+
+let activePointerId = null;
+
+let startPointerX = 0;
+let startPointerY = 0;
+
+let lastPointerX = 0;
+let lastPointerY = 0;
+
+let dragDistance = 0;
+
+let pressedCenterZone = null;
+
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function updateCube() {
+
+    cube.style.transform =
+        `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+function animate() {
+
+    /*
+       AUTO ROTATION ALWAYS RUNS.
+    */
+
+    rotateY += autoSpeed;
+
+
+    /*
+       Inertia after dragging.
+    */
+
+    if (!isDragging) {
+
+        rotateY += velocityY;
+
+        rotateX += velocityX;
+
+        velocityY *= 0.94;
+
+        velocityX *= 0.94;
+
+    }
+
+
+    /*
+       Keep X rotation reasonable.
+    */
+
+    if (rotateX > 80) {
+        rotateX = 80;
+    }
+
+    if (rotateX < -80) {
+        rotateX = -80;
+    }
+
+
+    updateCube();
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+
+/* =========================================================
+   POINTER DOWN
+========================================================= */
+
+cube.addEventListener(
+    "pointerdown",
+    function (event) {
+
+        if (
+            event.pointerType === "mouse" &&
+            event.button !== 0
+        ) {
+            return;
+        }
+
+
+        isDragging = true;
+
+        activePointerId =
+            event.pointerId;
+
+
+        startPointerX =
+            event.clientX;
+
+        startPointerY =
+            event.clientY;
+
+        lastPointerX =
+            event.clientX;
+
+        lastPointerY =
+            event.clientY;
+
+
+        dragDistance = 0;
+
+
+        /*
+           Remember whether the press started
+           inside the centre click area.
+        */
+
+        pressedCenterZone =
+            event.target.closest(".center-zone");
+
+
+        velocityX = 0;
+        velocityY = 0;
+
+
+        cube.setPointerCapture(
+            event.pointerId
+        );
+
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =========================================================
+   POINTER MOVE
+========================================================= */
+
+cube.addEventListener(
+    "pointermove",
+    function (event) {
+
+        if (
+            !isDragging ||
+            event.pointerId !== activePointerId
+        ) {
+            return;
+        }
+
+
+        const dx =
+            event.clientX -
+            lastPointerX;
+
+        const dy =
+            event.clientY -
+            lastPointerY;
+
+
+        const totalX =
+            event.clientX -
+            startPointerX;
+
+        const totalY =
+            event.clientY -
+            startPointerY;
+
+
+        dragDistance =
+            Math.sqrt(
+                totalX * totalX +
+                totalY * totalY
+            );
+
+
+        /*
+           Rotate horizontally.
+        */
+
+        rotateY +=
+            dx * 0.55;
+
+
+        /*
+           Rotate vertically.
+        */
+
+        rotateX -=
+            dy * 0.55;
+
+
+        /*
+           Inertia.
+        */
+
+        velocityY =
+            dx * 0.16;
+
+        velocityX =
+            -dy * 0.16;
+
+
+        lastPointerX =
+            event.clientX;
+
+        lastPointerY =
+            event.clientY;
+
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =========================================================
+   POINTER UP
+========================================================= */
+
+cube.addEventListener(
+    "pointerup",
+    function (event) {
+
+        if (
+            !isDragging ||
+            event.pointerId !== activePointerId
+        ) {
+            return;
+        }
+
+
+        /*
+           Save this BEFORE clearing it.
+        */
+
+        const clickedCenter =
+            pressedCenterZone;
+
+
+        const wasDrag =
+            dragDistance > 8;
+
+
+        isDragging = false;
+
+        activePointerId = null;
+
+
+        /*
+           Release pointer capture.
+        */
+
+        try {
+
+            cube.releasePointerCapture(
+                event.pointerId
+            );
+
+        } catch (error) {}
+
+
+        /*
+           THIS IS THE IMPORTANT PART:
+           
+           Message opens ONLY when:
+           
+           1. Pointer started in centre
+           2. Pointer moved less than 8px
+           
+           Therefore:
+           
+           Centre click = MESSAGE
+           Centre drag = ROTATE
+           Edge click = NOTHING
+           Edge drag = ROTATE
+        */
+
+        if (
+            clickedCenter &&
+            !wasDrag
+        ) {
+
+            const message =
+                clickedCenter.dataset.message;
+
+
+            const face =
+                clickedCenter.closest(".face");
+
+
+            const memory =
+                face.dataset.memory;
+
+
+            openMessage(
+                message,
+                memory
+            );
+
+        }
+
+
+        pressedCenterZone = null;
+
+    }
+);
+
+
+/* =========================================================
+   POINTER CANCEL
+========================================================= */
+
+cube.addEventListener(
+    "pointercancel",
+    function (event) {
+
+        if (
+            event.pointerId !== activePointerId
+        ) {
+            return;
+        }
+
+        isDragging = false;
+
+        activePointerId = null;
+
+        pressedCenterZone = null;
+
+    }
+);
+
+
+/* =========================================================
+   MESSAGE SYSTEM
+========================================================= */
+
+const visitedMemories =
+    new Set();
+
+const progressDots =
+    document.querySelectorAll(
+        ".progress-dot"
+    );
+
+
+function openMessage(
+    message,
+    memory
+) {
+
+    messageText.textContent =
+        message;
+
+
+    messageOverlay.classList.add(
+        "show"
+    );
+
+
+    visitedMemories.add(
+        String(memory)
+    );
+
+
+    updateProgress();
+
+}
+
+
+function updateProgress() {
+
+    progressDots.forEach(
+        function (dot) {
+
+            const number =
+                dot.dataset.dot;
+
+
+            if (
+                visitedMemories.has(number)
+            ) {
+
+                dot.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        visitedMemories.size === 6
+    ) {
+
+        setTimeout(
+            function () {
+
+                nextStep.classList.add(
+                    "show"
+                );
+
+            },
+            600
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CLOSE MESSAGE
+========================================================= */
+
+closeMessage.addEventListener(
+    "click",
+    function () {
+
+        messageOverlay.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+messageOverlay.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target ===
+            messageOverlay
+        ) {
+
+            messageOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ESC
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            messageOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FLOATING PARTICLES
+========================================================= */
+
+const particleSymbols = [
+    "❤️",
+    "💕",
+    "✨",
+    "💖",
+    "🌸",
+    "⭐",
+    "💗"
+];
+
+
+function createParticle() {
+
+    const particle =
+        document.createElement("div");
+
+    particle.className =
+        "particle";
+
+    particle.textContent =
+        particleSymbols[
+            Math.floor(
+                Math.random() *
+                particleSymbols.length
+            )
+        ];
+
+    particle.style.left =
+        Math.random() * 100 + "vw";
+
+    particle.style.top =
+        "105vh";
+
+    particle.style.fontSize =
+        10 + Math.random() * 15 + "px";
+
+    particle.style.animationDuration =
+        7 + Math.random() * 7 + "s";
+
+    document.body.appendChild(
+        particle
+    );
+
+
+    setTimeout(
+        function () {
+
+            particle.remove();
+
+        },
+        16000
+    );
+
+}
+
+
+setInterval(
+    createParticle,
+    650
+);
+
+
+/* =========================================================
+   FINAL SURPRISE
+========================================================= */
+
+surpriseButton.addEventListener(
+    "click",
+    function () {
+
+        nextStep.classList.remove(
+            "show"
+        );
+
+        finalScreen.classList.add(
+            "show"
+        );
+
+        createHeartBurst();
+
+    }
+);
+
+
+/* =========================================================
+   HEART BURST
+========================================================= */
+
+function createHeartBurst() {
+
+    const symbols = [
+        "❤️",
+        "💖",
+        "💕",
+        "💗",
+        "✨",
+        "🌸"
+    ];
+
+
+    for (
+        let i = 0;
+        i < 50;
+        i++
+    ) {
+
+        const heart =
+            document.createElement(
+                "div"
+            );
+
+        heart.className =
+            "burst-heart";
+
+        heart.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
+
+
+        const distance =
+            120 +
+            Math.random() *
+            450;
+
+
+        const x =
+            Math.cos(angle) *
+            distance;
+
+
+        const y =
+            Math.sin(angle) *
+            distance;
+
+
+        heart.style.setProperty(
+            "--x",
+            x + "px"
+        );
+
+        heart.style.setProperty(
+            "--y",
+            y + "px"
+        );
+
+        heart.style.setProperty(
+            "--rotate",
+            -180 +
+            Math.random() * 360 +
+            "deg"
+        );
+
+
+        heart.style.animationDelay =
+            Math.random() * 0.3 + "s";
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+        setTimeout(
+            function () {
+
+                heart.remove();
+
+            },
+            2200
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FINAL BUTTON
+========================================================= */
+
+smileButton.addEventListener(
+    "click",
+    function () {
+
+        createHeartBurst();
+
+        smileButton.textContent =
+            "That's the idea 😊❤️";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
